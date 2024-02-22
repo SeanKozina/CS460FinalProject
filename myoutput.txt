@@ -48,17 +48,8 @@ Token: (
 Token type: DOUBLE_QUOTE
 Token: "
 
-Token type: IDENTIFIER
-Token: counter
-
-Token type: ASSIGNMENT_OPERATOR
-Token: =
-
-Token type: MODULO
-Token: %
-
-Token type: IDENTIFIER
-Token: d\n
+Token type: STRING
+Token: counter = %d\n
 
 Token type: DOUBLE_QUOTE
 Token: "
