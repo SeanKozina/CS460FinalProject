@@ -1,52 +1,76 @@
+// ***************************************************
+// * CS460: Programming Assignment 2: Test Program 2 *
+// ***************************************************
 
-procedure main (void)
+
+
+// *******************************************************************************************
+// * The fizzbuzz procedure outputs one of the following responses:                          *
+// *                                                                                         *
+// * If counter is divisible by three without remainder, display "Fizz".                     *
+// * If counter is divisible by five without remainder, display "Buzz".                      *                
+// * If counter is divisible by both three and five without a remainder, display "Fizzbuzz". *
+// * If counter is NOT divisible by three or five, display the counter.                      *
+// *******************************************************************************************
+procedure fizzbuzz (int counter)
 {
-  char buffer[256];
-  bool is_palindrome;
-  int i, num_bytes_read, half_num_bytes_read;
+  int state;
 
-  buffer[255] = '\0';
-  num_bytes_read = read (buffer, sizeof(buffer) - 2); 
-  for (i = 0; i < num_bytes_read; i++)
+  state = 0;
+  if ((counter % 3) == 0)
   {
-    if (buffer[i] == '\n')
-    {
-      buffer[i] = '\0';
-      if (i > 0)
-      {
-        num_bytes_read = i;
-      }
-      else
-      {
-        num_bytes_read = 0;
-      }
-    }
+    state = 1;
   }
-  if (num_bytes_read >= 2)
+  if ((counter % 5) == 0)
   {
-    half_num_bytes_read = (num_bytes_read - 1) / 2;
-    i = 0;
-    is_palindrome = TRUE;
-    while ((i <= half_num_bytes_read) && is_palindrome)
-    {
-      is_palindrome = buffer[i] == buffer[num_bytes_read - 1 - i];
-      i = i + 1;
-    }
+    state = state * 2 + 2;
+  }
+  if (state == 1)
+  {
+    printf ("Fizz");
   }
   else
   {
-    is_palindrome = FALSE;
-  }
-  if (num_bytes_read > 0)
-  {
-    if (is_palindrome)
+    if (state == 2)
     {
-      printf ("%s is a palindrome\n", buffer);
+      printf ("Buzz");
     }
     else
     {
-      printf ("%s is not a palindrome.\n", buffer);
+      if (state == 4)
+      {
+        printf ("Fizzbuzz");
+      }
+      else
+      {
+        printf ("%d", counter);
+      }
     }
   }
 }
+
+
+
+
+
+procedure main (void)
+{
+  int counter;
+
+  counter = 1;
+  while (counter <= 100)
+  {
+    fizzbuzz (counter);
+    counter = counter + 1;
+    if (counter <= 100)
+    {
+      printf (", ");
+    }
+    else
+    {
+      printf ("\n");
+    }
+  }
+}
+
 
