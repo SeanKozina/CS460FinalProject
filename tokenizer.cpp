@@ -13,7 +13,7 @@ enum class EIdentifier
 enum class EString
 {
 	state_1, // Starts with " or '
-	state_2, // String
+	state_2, // Looping through the string
 	state_3, // Ends with " or '
 };
 
@@ -172,50 +172,55 @@ bool GetCharacter(std::ifstream *inFile, std::ofstream *outFile)
 
 
 		// =============  Check for strings ============= 
-		if (c == '\'')
+		if (c == '"' || c == '\'')
 		{
-			ISSTRING = EString::state_1;
-			std::string inString = "";
-			while (inFile->get(c))
+			if (c == '\'')
 			{
-				ISSTRING = EString::state_2;
-				if (c == '\n')
+				ISSTRING = EString::state_1;
+				std::string inString = "";
+				while (inFile->get(c))
 				{
-					lineCounter++;
+					ISSTRING = EString::state_2;
+					if (c == '\n')
+					{
+						lineCounter++;
+					}
+					if (c == '\'')
+					{
+						ISSTRING = EString::state_3;
+						break;
+					}
+					inString += c;
 				}
-				if (c == '\'')
-				{
-					ISSTRING = EString::state_3;
-					break;
-				}
-				inString += c;
+				bool bString = true;
+				PrintToken(outFile, inString, "STRING"); // Print the string in the file
+				PrintToken(outFile, c, getTokenKind(std::string(1, c), &bString)); // Print the second " in the file
 			}
-			bool bString = true;
-			PrintToken(outFile, inString, "STRING"); // Print the string in the file
-			PrintToken(outFile, c, getTokenKind(std::string(1, c), &bString)); // Print the second " in the file
-		}
-		if (c == '"')
-		{
-			ISSTRING = EString::state_1;
-			std::string inString = "";
-			while (inFile->get(c))
+			else if (c == '"')
 			{
-				ISSTRING = EString::state_2;
-				if (c == '\n')
+				ISSTRING = EString::state_1;
+				std::string inString = "";
+				while (inFile->get(c))
 				{
-					lineCounter++;
+					ISSTRING = EString::state_2;
+					if (c == '\n')
+					{
+						lineCounter++;
+					}
+					if (c == '"')
+					{
+						ISSTRING = EString::state_3;
+						break;
+					}
+					inString += c;
 				}
-				if (c == '"')
-				{
-					ISSTRING = EString::state_3;
-					break;
-				}
-				inString += c;
+				bool bString = true;
+				PrintToken(outFile, inString, "STRING"); // Print the string in the file
+				PrintToken(outFile, c, getTokenKind(std::string(1, c), &bString)); // Print the second " in the file
 			}
-			bool bString = true;
-			PrintToken(outFile, inString, "STRING"); // Print the string in the file
-			PrintToken(outFile, c, getTokenKind(std::string(1, c), &bString)); // Print the second " in the file
+
 		}
+		
 	}// End of while loop
 
 
