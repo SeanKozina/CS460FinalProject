@@ -12,7 +12,7 @@ int main()
 	std::ofstream outputStream;
 
 	// 1 to 10
-	for (int i = 1; i <= 10; i++)
+	for (int i = 10; i <= 10; i++)
 	{
 		std::string TOKENFILE = "test" + std::to_string(i) + ".c";
 

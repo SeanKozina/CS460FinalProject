@@ -70,6 +70,8 @@ void concreteSyntaxTree::createConcreteSyntaxTree(std::ifstream* inFile, std::of
         SetError(outFile, TOKENFILE);
     }
     else {
+        outFile->close();
+        outFile->open(TOKENFILE + "_SyntaxTree.txt");
         printST(first, outFile);
     }
 }
@@ -281,7 +283,8 @@ bool concreteSyntaxTree::CheckForReservedTypes(std::string inString)
     "class",
     "struct",
     "enum",
-    "union"
+    "union",
+    "printf"
     };
 
     for (auto item : reservedTypes)
